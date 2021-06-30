@@ -4,30 +4,70 @@ using UnityEngine;
 
 public class Shot : MonoBehaviour
 {
-    [SerializeField] private GameObject _bullet;
+    [SerializeField] private GameObject[] _bullets;
     [SerializeField] private Transform _spawnBullet;
     [SerializeField] private float _bulletSpeed = 50f;
     [SerializeField] private float _destroyBulletTime = 3f;
 
+    private Bullet _bullet;
+    private GameObject _newBullet;
+
+    enum BulletState { Silver, Gold, Purple }
+    private BulletState _bulletState;
+
     void Start()
     {
-
+        _bulletState = BulletState.Silver;
     }
 
     void Update()
     {
-        ToShot();
-    }
-
-    private void ToShot()
-    {
-       
+        ChooseBullet();
         if (Input.GetMouseButtonDown(0))
         {
-            var bullet = Instantiate(_bullet, _spawnBullet.position, _spawnBullet.rotation);
-            var rigidBody = bullet.GetComponent<Rigidbody>();
-            rigidBody.velocity = transform.TransformDirection(Vector3.forward * _bulletSpeed);
-            Destroy(bullet, _destroyBulletTime);
+            SetBullet();
+            ToShot(_newBullet);
+            Destroy(_newBullet, _destroyBulletTime);
+        }
+    }
+
+    private void ToShot(GameObject bullet)
+    {
+        var rigidBody = bullet.GetComponent<Rigidbody>();
+        rigidBody.velocity = transform.TransformDirection(Vector3.forward * _bulletSpeed);
+    }
+
+    private void SetBullet()
+    {
+        if (_bulletState == BulletState.Silver)
+        {
+            _newBullet = Instantiate(_bullets[0], _spawnBullet.position, _spawnBullet.rotation);
+        }
+        if (_bulletState == BulletState.Gold)
+        {
+            _newBullet = Instantiate(_bullets[1], _spawnBullet.position, _spawnBullet.rotation);
+        }
+        if (_bulletState == BulletState.Purple)
+        {
+            _newBullet = Instantiate(_bullets[2], _spawnBullet.position, _spawnBullet.rotation);
+        }
+    }
+
+    private void ChooseBullet()
+    {
+        if (Input.GetKey(KeyCode.Keypad1))
+        {
+            _bulletState = BulletState.Silver;
+        }
+
+        if (Input.GetKey(KeyCode.Keypad2))
+        {
+            _bulletState = BulletState.Gold;
+        }
+
+        if (Input.GetKey(KeyCode.Keypad3))
+        {
+            _bulletState = BulletState.Purple;
         }
     }
 }

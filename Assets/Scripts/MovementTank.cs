@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,30 +7,30 @@ public class MovementTank : MonoBehaviour
 { 
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _turret;
-    [SerializeField] private float _tranlationSpeed = 5f;
+    [SerializeField] private float _translationSpeed = 5f;
     [SerializeField] private float _rotationSpeed = 50f;
     [SerializeField] private float _rotateTurretSpeed = 10f;
 
+    private AudioSource _audioSource;
     private float _translation;
     private float _horizontalRotate;
 
-
-    void Start()
+    private void Awake()
     {
-       // Instantiate(_player, transform.position, Quaternion.identity);
-
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        Move();
-        Rotate();
-        RotateTurret();
+            Move();
+            Rotate();
+            PlayAudio();
+            RotateTurret();
     }
 
     private void Move()
     {
-        _translation = Input.GetAxis("Vertical") * _tranlationSpeed;
+        _translation = Input.GetAxis("Vertical") * _translationSpeed;
         _player.transform.Translate(0,0, _translation * Time.deltaTime);
     }
     private void Rotate()
@@ -49,5 +50,13 @@ public class MovementTank : MonoBehaviour
             _turret.transform.Rotate(Vector3.down * Time.deltaTime * _rotateTurretSpeed);
         }
 
+    }
+
+    private void PlayAudio()
+    {
+        if (Math.Abs(_translation - Input.GetAxis("Vertical")) < 0.1f && Math.Abs(_horizontalRotate - Input.GetAxis("Horizontal")) < 0.1f)
+        {
+
+        }
     }
 }

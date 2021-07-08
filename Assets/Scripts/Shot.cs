@@ -8,12 +8,17 @@ public class Shot : MonoBehaviour
     [SerializeField] private Transform _spawnBullet;
     [SerializeField] private float _bulletSpeed = 50f;
     [SerializeField] private float _destroyBulletTime = 3f;
+    [SerializeField] private AudioSource _shotSound;
 
-    private Bullet _bullet;
     private GameObject _newBullet;
-
+   
     enum BulletState { Silver, Gold, Purple }
     private BulletState _bulletState;
+
+    private void Awake()
+    {
+        _shotSound = GetComponent<AudioSource>();
+    }
 
     void Start()
     {

@@ -10,8 +10,10 @@ public class MovementTank : MonoBehaviour
     [SerializeField] private float _translationSpeed = 5f;
     [SerializeField] private float _rotationSpeed = 50f;
     [SerializeField] private float _rotateTurretSpeed = 10f;
+    [SerializeField] private AudioSource _audioSource;
 
-    private AudioSource _audioSource;
+
+    //private AudioSource _audioSource;
     private float _translation;
     private float _horizontalRotate;
 
@@ -32,6 +34,7 @@ public class MovementTank : MonoBehaviour
     {
         _translation = Input.GetAxis("Vertical") * _translationSpeed;
         _player.transform.Translate(0,0, _translation * Time.deltaTime);
+       
     }
     private void Rotate()
     {
@@ -56,7 +59,7 @@ public class MovementTank : MonoBehaviour
     {
         if (Math.Abs(_translation - Input.GetAxis("Vertical")) < 0.1f && Math.Abs(_horizontalRotate - Input.GetAxis("Horizontal")) < 0.1f)
         {
-
+           // _audioSource.Play();
         }
     }
 }

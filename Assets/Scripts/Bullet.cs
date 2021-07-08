@@ -15,6 +15,7 @@ public class Bullet : MonoBehaviour
         _bulletParticle = GetComponent<ParticleSystem>();
         _explosionAudio = GetComponent<AudioSource>();
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bomb" && collision.gameObject.tag == "Wall" && collision.gameObject.tag == "Enemy")
